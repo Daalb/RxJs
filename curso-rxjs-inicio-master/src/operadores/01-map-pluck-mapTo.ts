@@ -8,16 +8,26 @@ import { map, pluck, mapTo } from 'rxjs/operators';
 
 const keyup$ = fromEvent<KeyboardEvent>( document, 'keyup' );
 
-const keyupCode$ = keyup$.pipe(
+const keyupCode$ = keyup$.pipe(//* El pipe es como una manguera
     map( event => event.code )
 );
 
+//!Deprecado
 const keyupPluck$ = keyup$.pipe(
     pluck('target', 'baseURI')
 );
 
+// const keyupPluck$ = keyup$.pipe(
+//     map(event => event?.target?.baseURI)
+// );
+
+//!Deprecado
+// const keyupMapTo$ = keyup$.pipe(
+//     mapTo('Tecla presionada')
+// );
+
 const keyupMapTo$ = keyup$.pipe(
-    mapTo('Tecla presionada')
+    map(() => 'Tecla presionada')
 );
 
 

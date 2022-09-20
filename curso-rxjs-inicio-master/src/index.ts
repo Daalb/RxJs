@@ -1,14 +1,38 @@
-import { of, range, asyncScheduler, observeOn } from 'rxjs';
+import { range, fromEvent } from 'rxjs';
+import { map, pluck, mapTo } from 'rxjs/operators';
 
-//*Crear secuencia de numeros con base a un rango. Por defecto síncrono
+// range(1,5).pipe(
+//     map<number,string>( val => (val * 10).toString() )
+// )
+// .subscribe( console.log );
 
-// const src$ = of(1,2,3,4,5);
-// const src$ = range(1,5);
-const src$ = range(1,5).pipe( observeOn(asyncScheduler) ); //* El asyncSchedule transforma el range en asíncrono
+const keyup$ = fromEvent<KeyboardEvent>( document, 'keyup' );
 
-console.log('inicio');
-src$.subscribe( console.log );
-console.log('fin');
+const keyupCode$ = keyup$.pipe(//* El pipe es como una manguera
+    map( event => event.code )
+);
+
+//!Deprecado
+const keyupPluck$ = keyup$.pipe(
+    pluck('target', 'baseURI')
+);
+
+// const keyupPluck$ = keyup$.pipe(
+//     map(event => event?.target?.baseURI)
+// );
+
+//!Deprecado
+// const keyupMapTo$ = keyup$.pipe(
+//     mapTo('Tecla presionada')
+// );
+
+const keyupMapTo$ = keyup$.pipe(
+    map(() => 'Tecla presionada')
+);
 
 
+keyup$.subscribe( console.log );
+keyupCode$.subscribe( code => console.log('map', code ) );
+keyupPluck$.subscribe( code => console.log('pluck', code ) );
+keyupMapTo$.subscribe( code => console.log('mapTo', code ) );
 
