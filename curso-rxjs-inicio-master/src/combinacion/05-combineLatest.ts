@@ -27,6 +27,6 @@ const getInputStream = ( elem: HTMLElement ) =>
 
 
 combineLatest(
-    getInputStream( input1 ),
-    getInputStream( input2 ),
+    [getInputStream( input1 ),
+    getInputStream( input2 ),]
 ).subscribe( console.log )
